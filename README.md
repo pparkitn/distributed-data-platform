@@ -20,10 +20,10 @@ inputs from S3, and writes its outputs back to S3. The same notebook runs on
 external service (Massive, S3, Kaggle, yfinance, Interactive Brokers, the
 trader) and how they fit together.
 
-> **Goal:** Build a complete, production-oriented trading stack — from raw
-> market data to executed strategies — that discovers lead-lag correlations
-> at scale, validates them with backtests, and trades them automatically on
-> paper first, all measured and reproducible.
+> **Goal:** Build a reproducible, scalable market-data platform that ingests
+> raw stock-minute data from object storage, validates and transforms it into
+> analytical datasets, and supports efficient querying through distributed
+> and local analytical engines.
 
 ---
 
