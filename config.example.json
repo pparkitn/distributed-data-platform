@@ -1,0 +1,7 @@
+{
+  "aws_region": "us-east-1",
+  "s3_bucket": "market-data-zw",
+  "spark_executor_memory": "24g",
+  "spark_executor_cores": 4,
+  "spark_driver_memory": "24g"
+}
