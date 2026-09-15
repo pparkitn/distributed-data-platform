@@ -378,6 +378,7 @@ market-data-platform/
 │
 ├── docs/
 │   ├── services.md              # EXTERNAL SERVICES (Massive, S3, Kaggle, IB, trader)
+│   ├── engineering-decisions.md # WHY Parquet/S3/Spark/DuckDB/Kaggle/…
 │   ├── architecture.md
 │   ├── partitioning.md
 │   └── performance.md
@@ -482,6 +483,7 @@ trader daemons, and the S3 order ledger): [docs/services.md §7–§8](docs/serv
 ## Documentation
 
 - [External services (Massive, S3, Kaggle, yfinance, Interactive Brokers, trader)](docs/services.md)
+- [Engineering decisions — why Parquet, S3, Spark, DuckDB, Kaggle, …](docs/engineering-decisions.md)
 - [Architecture](docs/architecture.md)
 - [Partitioning](docs/partitioning.md)
 - [Performance](docs/performance.md)
