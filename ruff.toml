@@ -1,0 +1,8 @@
+line-length = 100
+target-version = "py311"
+# Notebooks are validated statically by tests/test_notebooks.py instead.
+exclude = ["media", ".github", "notebooks"]
+
+[lint]
+select = ["E", "F", "I", "W", "UP", "B", "SIM"]
+ignore = ["E501"]
