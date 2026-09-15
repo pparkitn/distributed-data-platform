@@ -1,19 +1,42 @@
 # Market Data Platform
 
-A **reproducible, scalable data platform** that ingests **billions of raw
-stock-minute records** from object storage, validates and transforms them
-into analytical datasets, and supports efficient querying through
-**distributed (Apache Spark)** and **local (DuckDB)** analytical engines.
+A scalable market-data platform processing **1B+ records** using **Apache
+Spark, DuckDB, Parquet and Amazon S3** — with incremental ingestion,
+data-quality validation, distributed analytics, and reproducible benchmarks.
 
 > **Goal:** Build a reproducible, scalable market-data platform that ingests
 > raw stock-minute data from object storage, validates and transforms it into
 > analytical datasets, and supports efficient querying through distributed
 > and local analytical engines.
 
+```text
+┌──────────────────────────────────────────────────┐
+│                  PLATFORM SCALE                  │
+├──────────────────────────────────────────────────┤
+│  1.04B+    records (measured from Parquet meta)  │
+│  36.7K     Parquet objects                       │
+│  24 GB     stored data                           │
+│  14K+      securities                            │
+│  Spark     distributed processing                │
+│  DuckDB    vectorized analytics                  │
+│  S3        object storage                        │
+│  Kaggle    cloud execution                       │
+└──────────────────────────────────────────────────┘
+```
+
 The primary interface is a pipeline of **11 self-contained notebooks** that
 run on Kaggle, local Jupyter, or Colab. Every stage reads its inputs from S3
 and writes its outputs back to S3, so the pipeline is resumable, auditable,
 and free of hidden state.
+
+> **Design note (notebooks vs. package):** the notebooks are self-contained
+> by deliberate choice — each installs its own dependencies and carries its
+> own helpers, so any stage runs standalone on Kaggle without a shared build.
+> The trade-off (some duplicated configuration/storage code across
+> notebooks) is intentional: it makes every stage independently executable
+> and resume-safe. This project started as Kaggle kernels and kept that
+> model; the shared-service contracts are documented once in
+> [docs/services.md](docs/services.md).
 
 ---
 
