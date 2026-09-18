@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Environments / secrets
+.env
+config.json
+creds.json
+*.pem
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+.kaggle/
+
+# Local data / scratch
+data/
+scratch/
+*.log
+nohup.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Local agent context (not part of the repo)
+AGENTS.md
