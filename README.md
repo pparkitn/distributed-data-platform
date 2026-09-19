@@ -414,6 +414,35 @@ results; only wall-clock time varies. Full methodology in the benchmark kernel
 
 ---
 
+## Synthetic demos (no S3, no licensed data)
+
+A set of **small example notebooks** that run the platform's logic on a
+**synthetically generated** universe instead of the licensed market data —
+public, CC0, fully reproducible on Kaggle:
+
+| Notebook | What it does |
+|---|---|
+| `demo/00-00-synthetic-market-data` | Generates a public 20,000-ticker minute-bar dataset (`dsptlp/synthetic-market-data`, + shard 2) with realistic sector lead-lag structure, deliberate data defects for the quality filters, and fake ETFs for the type-exclusion demo. Resumable across Kaggle runs. |
+| `demo/02-01-etl-summary-synthetic-demo` | The `02-01` daily-summary ETL (Spark) on the synthetic universe — reads the mounted datasets, writes `minute_summary` + `daily_volume` locally, publishes them to `dsptlp/synthetic-market-data-summary`. |
+| `demo/03-01-correlation-synthetic-demo` | The `03-01` lead-lag correlation pipeline (quality filters, ETF exclusion, FDR) on the synthetic summaries — writes discovered pairs locally. |
+| `demo/benchmark-engines` | Deterministic pandas vs Spark vs DuckDB benchmark on the synthetic minute bars (see [benchmarks/results.md](benchmarks/results.md) and [bench.md](bench.md)) — same files, same result, only wall time varies. |
+
+Run order mirrors the real pipeline: `00-00` (generate) → `02-01` (summaries)
+→ `03-01` (correlation); the benchmark notebook is standalone. These demos are
+the source for the live Kaggle kernels `dsptlp/autotrade-00-00-synthetic-market-data`,
+`dsptlp/autotrade-02-01-etl-summary-synthetic-demo`,
+`dsptlp/autotrade-03-01-correlation-synthetic-demo`, and
+`dsptlp/autotrade-benchmark-engines`.
+
+> **Note:** unlike the self-contained pipeline notebooks, the 02-01/03-01 demos
+> copy the shared `autotrade` package from the `dsptlp/autotrade-package`
+> Kaggle dataset at runtime (their design as Kaggle demos); they read/write
+> everything under `/kaggle/input` + `/kaggle/working`, never S3. Kaggle
+> publishing cells require `KAGGLE_API_TOKEN` via Add-ons → Secrets
+> (never hard-coded).
+
+---
+
 ## Quick Start
 
 ### Run on Kaggle (recommended)
@@ -479,7 +508,12 @@ market-data-platform/
 │   ├── 04-01-backtest.ipynb
 │   ├── 04-02-analyze-backtest.ipynb
 │   ├── 05-01-pair-explorer.ipynb
-│   └── 05-02-advanced-pair-analysis.ipynb
+│   ├── 05-02-advanced-pair-analysis.ipynb
+│   └── demo/                     # synthetic-data sample demos (no S3)
+│       ├── 00-00-synthetic-market-data.ipynb
+│       ├── 02-01-etl-summary-synthetic-demo.ipynb
+│       ├── 03-01-correlation-synthetic-demo.ipynb
+│       └── benchmark-engines.ipynb
 │
 ├── push_kernels.py              # push notebooks to Kaggle (`kaggle kernels push`)
 ├── batch_runner.py              # continuous / parallel Kaggle runs

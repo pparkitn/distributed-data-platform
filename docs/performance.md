@@ -32,8 +32,11 @@ analysis notebooks — so timings are directly comparable.
    `read_parquet('s3://.../minute_data_final/*.parquet')`) and time it.
 3. Record both in `benchmarks/results.md`.
 
-For local experiments, a synthetic dataset can be generated with a short
-pandas script (symbols x days of minute bars) and written to `minute_data_final/`.
+For local experiments, a synthetic dataset can be generated with
+[`notebooks/demo/00-00-synthetic-market-data.ipynb`](../notebooks/demo/00-00-synthetic-market-data.ipynb)
+(symbols × days of minute bars) and written to `minute_data_final/`; the
+standalone engine benchmark lives in
+[`notebooks/demo/benchmark-engines.ipynb`](../notebooks/demo/benchmark-engines.ipynb).
 
 ## Scaling notes
 
