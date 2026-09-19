@@ -87,5 +87,5 @@ For the time-series workload in this platform:
   so date-partitioned output plus predicate pushdown on `trade_date`
   minimizes I/O for range queries.
 
-The partitioning experiments are tracked in `benchmarks/results.md` as
+The partitioning experiments are tracked in `bench.md` as
 measurements are collected.

@@ -30,7 +30,7 @@ analysis notebooks — so timings are directly comparable.
    cells; record the Spark UI metrics.
 2. Run the same aggregation with DuckDB (a local notebook / script with
    `read_parquet('s3://.../minute_data_final/*.parquet')`) and time it.
-3. Record both in `benchmarks/results.md`.
+3. Record both in `bench.md`.
 
 For local experiments, a synthetic dataset can be generated with
 [`notebooks/demo/00-00-synthetic-market-data.ipynb`](../notebooks/demo/00-00-synthetic-market-data.ipynb)
@@ -51,5 +51,5 @@ standalone engine benchmark lives in
 
 ## Results
 
-Actual, measured numbers live in [`benchmarks/results.md`](../benchmarks/results.md).
+Actual, measured numbers live in [`bench.md`](../bench.md).
 Per the project's principle, no fabricated numbers are published.

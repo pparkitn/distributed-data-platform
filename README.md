@@ -209,7 +209,7 @@ The daily OHLCV aggregation and the analysis stages are implemented on both
 control) and **DuckDB** (single-node vectorized), with an identical OHLCV
 definition — so local vs. distributed trade-offs are measurable, not
 theoretical. Benchmark results are recorded in
-[`benchmarks/results.md`](benchmarks/results.md) from actual runs.
+[`bench.md`](bench.md) from actual runs.
 
 ### Object storage as the source of truth
 
@@ -297,7 +297,7 @@ not estimates.
 
 Both implement the **same daily OHLCV definition**, so results and timings
 are directly comparable — see [docs/performance.md](docs/performance.md) and
-[benchmarks/results.md](benchmarks/results.md).
+[bench.md](bench.md).
 
 ---
 
@@ -351,7 +351,7 @@ Does it fit comfortably in memory?         Can one machine handle it efficiently
 - Exploration and model development on manageable extracts → **Pandas**.
 
 This project runs the **same daily OHLCV aggregation on both DuckDB and Spark**
-and records the measured results in [benchmarks/results.md](benchmarks/results.md)
+and records the measured results in [bench.md](bench.md)
 — where the single-machine vs. distributed boundary actually falls is decided
 by data, not assumption.
 
@@ -425,7 +425,7 @@ public, CC0, fully reproducible on Kaggle:
 | `demo/00-00-synthetic-market-data` | Generates a public 20,000-ticker minute-bar dataset (`dsptlp/synthetic-market-data`, + shard 2) with realistic sector lead-lag structure, deliberate data defects for the quality filters, and fake ETFs for the type-exclusion demo. Resumable across Kaggle runs. |
 | `demo/02-01-etl-summary-synthetic-demo` | The `02-01` daily-summary ETL (Spark) on the synthetic universe — reads the mounted datasets, writes `minute_summary` + `daily_volume` locally, publishes them to `dsptlp/synthetic-market-data-summary`. |
 | `demo/03-01-correlation-synthetic-demo` | The `03-01` lead-lag correlation pipeline (quality filters, ETF exclusion, FDR) on the synthetic summaries — writes discovered pairs locally. |
-| `demo/benchmark-engines` | Deterministic pandas vs Spark vs DuckDB benchmark on the synthetic minute bars (see [benchmarks/results.md](benchmarks/results.md) and [bench.md](bench.md)) — same files, same result, only wall time varies. |
+| `demo/benchmark-engines` | Deterministic pandas vs Spark vs DuckDB benchmark on the synthetic minute bars (see [bench.md](bench.md)) — same files, same result, only wall time varies. |
 
 Run order mirrors the real pipeline: `00-00` (generate) → `02-01` (summaries)
 → `03-01` (correlation); the benchmark notebook is standalone. These demos are
@@ -530,8 +530,7 @@ market-data-platform/
 │   ├── partitioning.md
 │   └── performance.md
 │
-└── benchmarks/
-    └── results.md               # measured benchmark numbers (never fabricated)
+└── bench.md                    # measured benchmark numbers (never fabricated)
 ```
 
 ---
@@ -614,7 +613,7 @@ on GitHub; the video, audio, and PowerPoint open via their links.
 - [Architecture](docs/architecture.md)
 - [Partitioning](docs/partitioning.md)
 - [Performance](docs/performance.md)
-- [Benchmark results](benchmarks/results.md)
+- [Benchmark results](bench.md)
 
 ---
 

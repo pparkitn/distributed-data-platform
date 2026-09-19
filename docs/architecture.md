@@ -131,7 +131,7 @@ Resolution order in every setup cell: **environment variables → config.json
 - **Reproducibility** — deterministic filters are separated from randomized
   sampling; identical inputs produce identical outputs.
 - **Measure before optimizing** — benchmark numbers are measured, never
-  fabricated (`benchmarks/results.md`).
+  fabricated (`bench.md`).
 - **Minimize data movement** — derived state (who has been downloaded, what
   pairs exist) is reconstructed from object keys and Parquet metadata instead
   of re-scanning.
