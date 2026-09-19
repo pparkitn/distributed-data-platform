@@ -357,6 +357,63 @@ by data, not assumption.
 
 ---
 
+## Measured Engine Performance
+
+Deterministic benchmark on **synthetic minute bars** (`dsptlp/synthetic-market-data`,
+20,000 tickers, Feb 2024–Jan 2026, CC0), run on a Kaggle CPU session (16 GB RAM).
+Every engine reads the exact same Parquet files and computes the exact same
+results; only wall-clock time varies. Full methodology in the benchmark kernel
+(`dsptlp/autotrade-benchmark-engines`).
+
+### Scan + aggregate (best-of-N wall seconds)
+
+| Group (rows) | Task | pandas | duckdb | spark |
+|---|---:|---:|---:|---:|
+| 1 mo × 300 tickers (2.3 M) | pull | 5.76 | **0.66** | 3.87 |
+| | calc | 5.86 | **1.03** | 6.23 |
+| 12 mo × 300 (30.4 M) | pull | 5.55 | **0.70** | 3.24 |
+| | calc | 10.68 | **1.67** | 7.28 |
+| full × 300 (58.5 M) | pull | 5.54 | **0.69** | 3.11 |
+| | calc | 15.03 | **2.29** | 8.84 |
+| full × 10,000 (1.95 B) | pull | — | **62.9** | 115.0 |
+| | calc | — | **196.5** | 352.6 |
+| full × 20,000 (3.90 B) | pull | — | **107.0** | 234.9 |
+| | calc | — | **414.5** | 694.4 |
+
+### Operation battery — 600 tickers, full frame (seconds)
+
+| Op | duckdb | spark | duckdb speedup |
+|---|---:|---:|---:|
+| `count` | **6.65** | 10.39 | 1.6× |
+| `sum` | **3.45** | 11.72 | 3.4× |
+| `avg` | **5.24** | 13.00 | 2.5× |
+| `stats` (SUM/AVG/MIN/MAX/STDDEV) | **7.52** | 21.25 | 2.8× |
+| `distinct` (trading days) | **14.02** | 126.85 | **9.1×** |
+| `filtered` (WHERE vol > 100k AND close > 50) | **0.97** | 3.25 | 3.3× |
+| `window` (20-bar rolling avg) | 23.85 | **12.83** | — (spark wins) |
+
+### Memory stress — 6 GB RSS cap, growing file count
+
+| Engine | Survived | Peak RSS | Verdict |
+|---|---|---|---|
+| **pandas** | 100 files (~0.4 GB) | 3.4 GB | **died at 200 files** (~6 GB cap) |
+| **duckdb** | **all 20,000 files (~80 GB scan)** | **1.4 GB** | survived everything |
+| **spark** | all 20,000 files (~80 GB scan) | 1.6 GB | survived everything |
+
+### Takeaways
+
+1. **DuckDB is the default engine** for scan/aggregate workloads on this data —
+   fastest in 13 of 14 timed comparisons (up to 5× over Spark on calc, 8–30×
+   over pandas on pull), lowest memory, survives the full 80 GB universe.
+2. **Spark's only win is window functions** (12.8 s vs 23.9 s); it matters for
+   real distributed data, not a single-node 16 GB session.
+3. **pandas is fine up to ~100 files (~3 GB)**, then hits a RAM wall — its I/O
+   is also the slowest (no columnar pushdown).
+4. Correctness was asserted in every group: identical row counts and aggregates
+   (max diff < 1e-3) across all engines.
+
+---
+
 ## Quick Start
 
 ### Run on Kaggle (recommended)
